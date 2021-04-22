@@ -3,8 +3,8 @@
 include('conexao.php');
  
 // Define variables and initialize with empty values
-$name = $address = $salary = "";
-$name_err = $address_err = $salary_err = "";
+$nome = $artista = $ano = $genero = $lancamento = $duracao = "";
+$nome_err = $artista_err = $ano_err = $genero_err = $lancamento_err = $duracao_err = "";
  
 // Processing form data when form is submitted
 if(isset($_POST["id"]) && !empty($_POST["id"])){
@@ -12,55 +12,78 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
     $id = $_POST["id"];
     
     // Validate name
-    $input_name = trim($_POST["nome"]);
-    if(empty($input_name)){
-        $name_err = "Please enter a name.";
-    } elseif(!filter_var($input_name, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))){
-        $name_err = "Please enter a valid name.";
-    } else{
-        $name = $input_name;
+    $input_nome = trim($_POST["nome"]);
+    if(empty($input_nome)){
+        $nome_err = "Por favor entre com nome.";
+    }else{
+        $nome = $input_nome;
     }
     
     // Validate address address
-    $artista = trim($_POST["artista"]);
-    if(empty($artista)){
-        $address_err = "Por favor um artista.";     
+    $input_artista = trim($_POST["artista"]);
+    if(empty($input_artista)){
+        $artista_err = "Por favor entre com um artista.";     
     } else{
-        $address = $input_address;
+        $artista = $input_artista;
     }
     
     // Validate salary
-    $input_salary = trim($_POST["salary"]);
-    if(empty($input_salary)){
-        $salary_err = "Please enter the salary amount.";     
-    } elseif(!ctype_digit($input_salary)){
-        $salary_err = "Please enter a positive integer value.";
+    $input_ano = trim($_POST["ano"]);
+    if(empty($input_ano)){
+        $ano_err = "Por favor entre com um ano.";     
+    }else{
+        $ano = $input_ano;
+    }
+
+    // Validate salary
+    $input_genero = trim($_POST["genero"]);
+    if(empty($input_genero)){
+        $genero_err = "Por favor entre com o genero.";     
     } else{
-        $salary = $input_salary;
+        $genero = $input_genero;
+    }
+
+    // Validate salary
+    $input_lancamento = trim($_POST["lancamento"]);
+    if(empty($input_lancamento)){
+        $lancamento_err = "Por favor entre com lancamento.";     
+    } else{
+        $lancamento = $input_lancamento;
+    }
+
+    // Validate salary
+    $input_duracao = trim($_POST["duracao"]);
+    if(empty($input_duracao)){
+        $duracao_err = "Por favor entre com a duração.";     
+    } else{
+        $duracao = $input_duracao;
     }
     
     // Check input errors before inserting in database
-    if(empty($name_err) && empty($address_err) && empty($salary_err)){
+    if(empty($nome_err) && empty($artista_err) && empty($ano_err) && empty($genero_err) && empty($lancamento_err) && empty($duracao_err)){
         // Prepare an update statement
-        $sql = "UPDATE cd SET name=?, address=?, salary=? WHERE id=?";
+        $sql = "UPDATE cd SET nome=?, artista=?, ano=?, genero=?, lancamento=?, duracao=?  WHERE id=?";
          
-        if($stmt = mysqli_prepare($link, $sql)){
+        if($stmt = mysqli_prepare($conexao, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "sssi", $param_name, $param_address, $param_salary, $param_id);
+            mysqli_stmt_bind_param($stmt, "sssi", $param_nome, $param_artista, $param_ano, $param_genero, $param_lancamento, $param_duracao, $param_id);
             
             // Set parameters
-            $param_name = $name;
-            $param_address = $address;
-            $param_salary = $salary;
+            $param_nome = $nome;
+            $param_artista = $artista;
+            $param_ano = $ano;
+            $param_genero = $genero;
+            $param_lancamento = $lancamento;
+            $param_duracao = $duracao;
             $param_id = $id;
             
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
                 // Records updated successfully. Redirect to landing page
-                header("location: index.php");
+                header("location: painel.php");
                 exit();
             } else{
-                echo "Oops! Something went wrong. Please try again later.";
+                echo "Oops! Por favor tente mais tarde.";
             }
         }
          
@@ -108,7 +131,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
                 }
                 
             } else{
-                echo "Oops! Something went wrong. Please try again later.";
+                echo "Oops! Tente mais tarde.";
             }
         }
         
@@ -143,27 +166,43 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <h2 class="mt-5">Update Record</h2>
-                    <p>Please edit the input values and submit to update the employee record.</p>
+                    <h2 class="mt-5">Atualizar Cd</h2>
+                    <a href="painel.php"><button type="button" class="btn btn-warning">Voltar</button></a>
+                    <p>Digite aqui os campos para atualizar.</p>
                     <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
                         <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" name="name" class="form-control <?php echo (!empty($name_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $name; ?>">
-                            <span class="invalid-feedback"><?php echo $name_err;?></span>
+                            <label>Nome</label>
+                            <input type="text" name="nome" class="form-control <?php echo (!empty($nome_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $nome; ?>">
+                            <span class="invalid-feedback"><?php echo $nome_err;?></span>
                         </div>
                         <div class="form-group">
-                            <label>Address</label>
-                            <textarea name="address" class="form-control <?php echo (!empty($address_err)) ? 'is-invalid' : ''; ?>"><?php echo $address; ?></textarea>
-                            <span class="invalid-feedback"><?php echo $address_err;?></span>
+                            <label>Artista</label>
+                            <input name="artista" class="form-control <?php echo (!empty($artista_err)) ? 'is-invalid' : ''; ?>"value="<?php echo $artista; ?>">
+                            <span class="invalid-feedback"><?php echo $artista_err;?></span>
                         </div>
                         <div class="form-group">
-                            <label>Salary</label>
-                            <input type="text" name="salary" class="form-control <?php echo (!empty($salary_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $salary; ?>">
-                            <span class="invalid-feedback"><?php echo $salary_err;?></span>
+                            <label>Ano</label>
+                            <input type="text" name="ano" class="form-control <?php echo (!empty($ano_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $ano; ?>">
+                            <span class="invalid-feedback"><?php echo $ano_err;?></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Genero</label>
+                            <input type="text" name="genero" class="form-control <?php echo (!empty($genero_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $genero; ?>">
+                            <span class="invalid-feedback"><?php echo $genero_err;?></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Lancamento</label>
+                            <input type="text" name="lancamento" class="form-control <?php echo (!empty($lancamento_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $lancamento; ?>">
+                            <span class="invalid-feedback"><?php echo $lancamento_err;?></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Duração</label>
+                            <input type="text" name="duracao" class="form-control <?php echo (!empty($duracao_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $duracao; ?>">
+                            <span class="invalid-feedback"><?php echo $duracao_err;?></span>
                         </div>
                         <input type="hidden" name="id" value="<?php echo $id; ?>"/>
-                        <input type="submit" class="btn btn-primary" value="Submit">
-                        <a href="index.php" class="btn btn-secondary ml-2">Cancel</a>
+                        <input type="submit" class="btn btn-primary" value="Atualizar">
+                        <a href="painel.php" class="btn btn-secondary ml-2">Cancelar</a>
                     </form>
                 </div>
             </div>        

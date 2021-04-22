@@ -43,7 +43,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <title>Delete Record</title>
+    <title>Deletar CD</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .wrapper{
@@ -61,10 +61,10 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                         <div class="alert alert-danger">
                             <input type="hidden" name="id" value="<?php echo trim($_GET["id"]); ?>"/>
-                            <p>Are you sure you want to delete this employee record?</p>
+                            <p>Tem certeza que deseja deletar?</p>
                             <p>
-                                <input type="submit" value="Yes" class="btn btn-danger">
-                                <a href="index.php" class="btn btn-secondary">No</a>
+                                <input type="submit" value="Sim" class="btn btn-danger">
+                                <a href="painel.php" class="btn btn-secondary">Não</a>
                             </p>
                         </div>
                     </form>

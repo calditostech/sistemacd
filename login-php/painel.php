@@ -2,8 +2,19 @@
 session_start();
 include('verifica_login.php');
 ?>
-<style>
-ul {
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+    <title>Cadastra CD</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .wrapper{
+            width: 600px;
+            margin: 0 auto;
+        }
+
+        ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -12,69 +23,23 @@ ul {
   height: 100px;
 }
 
-li {
-  float: left;
-}
-
-li a {
-  display: block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
-
-li a:hover {
-  background-color: #111;
-}
-
 .usuario {
-    margin-left: 1200px;
+    margin-left: 1100px;
     color: yellow;
     margin-top: -40px;
 }
 
 .logout {
     margin-left: 1400px;
-    margin-top: -60px;
+    margin-top: -50px;
+    color: white;
 }
 
 .sistema-text {
     margin-left: 100px;
     color: white;
 }
-
-.button {
-  background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  margin-top: 20px;
-}
-
-.button2 {background-color: #008CBA;}
-
-table, td, th {
-  border: 1px solid black;
-}
-
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-td {
-  height: 50px;
-  vertical-align: bottom;
-}
-
-</style>
+    </style>
 </head>
 <body>
     <!-- barra menu -->
@@ -85,8 +50,8 @@ td {
 </ul>
 
 <div class="container">
-  <a href="inserircd.php"><button class="button">Inserir CD</button></a>
-  <a href="cadastrousuario.php"><button class="button button2">Cadastrar usuario</button></a>
+  <a href="inserircd.php"><button type="button" class="btn btn-success">Inserir CD</button></a>
+  <a href="cadastrousuario.php"><button type="button" class="btn btn-primary">Cadastra Usuario</button></a>
   <?php
   include("conexao.php");
   $sql = "SELECT * FROM cd";
@@ -114,9 +79,9 @@ td {
                                         echo "<td>" . $row['lancamento'] . "</td>";
                                         echo "<td>" . $row['duracao'] . "</td>";
                                         echo "<td>";
-                                            echo '<a href="update.php?id='. $row['id'] .'" class="mr-3" title="Update Record" data-toggle="tooltip"><ion-icon name="pencil-outline"></ion-icon>
+                                            echo '<a href="update.php?id='. $row['id'] .'" class="mr-3" title="Update Record" data-toggle="tooltip"><ion-icon name="pencil-outline" class="pencil"></ion-icon>
                                             </a>';
-                                            echo '<a href="delete.php?id='. $row['id'] .'" title="Delete Record" data-toggle="tooltip"><ion-icon name="trash-outline"></ion-icon>
+                                            echo '<a href="delete.php?id='. $row['id'] .'" title="Delete Record" data-toggle="tooltip"><ion-icon name="trash-outline" class="outline"></ion-icon>
                                             </a>';
                                         echo "</td>";
                                     echo "</tr>";
